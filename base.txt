@@ -1,0 +1,225 @@
+Membuat Template Web Sederhana
+
+1. Aktifkan XAMPP (Apache)
+2. Download master codeigniter 3 https://codeigniter.com/download
+
+3. Buat folder baru di dalam htdocs dengan nama: web3a
+4. Ekstrak file master ke dalam folder web3a
+5. Preview di browser http://localhost/web3a
+6. Setting base url 
+-Buka file config.php di dalam folder application/config
+-Isi base url (baris 26)
+
+$config['base_url'] = 'http://localhost/web3a/';
+
+7. Hilangkan index.php url codeigniter
+-Buka file config.php di dalam folder application/config
+-Hapus index.php (baris 38)
+
+$config['index_page'] = '';
+
+-Menambahkan file .htaccess di dalam folder web3a
+
+RewriteEngine On 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+http://localhost/web3a/index.php/website/view
+
+8. Setting helper 
+- Buka file autoload.php di dalam folder application/config
+- Tambahkan url pada baris 92
+
+$autoload['helper'] = array('url');
+
+
+9. Buat controller baru dengan nama: Website
+
+<?php
+defined('BASEPATH') or exit('no direct script access allowed');
+class Website extends CI_Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function index()
+    {
+        $data['judul'] = "Halaman Depan";
+        $this->load->view('v_header', $data);
+        $this->load->view('v_index', $data);
+        $this->load->view('v_footer', $data);
+    }
+}
+
+
+10. Atur default controller
+-Buka file routes.php di dalam folder application/config
+
+$route['default_controller'] = 'website';
+
+11. Buat file view baru dengan nama: v_header.php
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Web Prog II | Merancang Template sederhana dengan codeigniter</title>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/stylebuku.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <header>
+            <hgroup>
+                <h1>RentalBuku.net</h1>
+                <h3>Membuat Template Sederhana dengan CodeIgniter</h3>
+            </hgroup>
+            <nav>
+                <ul>
+                    <li><a href="<?php echo base_url().'index.php/website'?>">Home</a></li>
+                    <li><a href="<?php echo base_url().'index.php/website/about'?>">About</a></li>
+                </ul>
+            </nav>
+            <div class="clear"></div>
+        </header>
+
+Fabriyan (Dosen), [04/10/2022 13:29]
+12. Buat file view baru dengan nama: v_index.php
+
+<section>
+    <h1><?php echo $judul ?></h1>
+    <p align='justify'>Pada pengertian codeigniter di atas tadi di jelaskan bahwa codeigniter menggunakan metode MVC. Apa ituMVC? Kita juga harus mengetahui apa itu MVC sebelum masuk dan lebih jauh dalam belajar codeigniter.</p>
+    <p>MVC adalah teknik atau konsep yang memisahkan komponen utama menjadi tiga komponen yaitu model, view dan controller.</p>
+    <ol type="a">
+        <li>Model</li>
+        <p align='justify'>Model adalah kelas yang merepresentasikan atau memodelkan tipe data yang akan digunakan oleh aplikasi. Model juga dapat didefinisakn sebagai bagian penanganan yang berhubungan dengan pengolahan atau manipulasi database. Seperti misalnya mengambil data dari database, menginput dan pengolahan database lainnya. Semua intruksi atau fungsi yang berhubung dengan pengolahan database di letakkan di dalam model. Sebagai contoh, jika ingin membuat aplikasi untuk menghitung luas dan keliling lingkaran, maka dapat memodelkan objek lingkaran sebagai kelas model.</p>
+        <p align='justify'>Sebagai catatan, Semua model harus disimpan di dalam folder application\models</p>
+        <li>View</li>
+        <p align='justify'>View merupakan bagian yang menangani halaman user interface atau halaman yang muncul pada user(pada browser). Tampilan dari user interface di kumpulkan pada view untuk memisahkannya dengan controller dan model sehingga memudahkan web designer dalam melakukan pengembangan tampilan halaman website.</p>
+        <li>Controller</li>
+        <p align='justify'>Controller merupakan kumpulan intruksi aksi yang menghubungkan model dan view, jadi user tidak akan berhubungan dengan model secara langsung, intinya data yang tersimpan di database (model) di ambil oleh controller dan kemudian controller pula yang menampilkan nya ke view. Jadi controller lah yang mengolah intruksi.</p>
+        <p align='justify'>Dari penjelasan tentang model view dan controller di atas dapat di simpulkan bahwa controller sebagai penghubung view dan model. Misalnya pada aplikasi yang menampilkan data dengan menggunakan metode konsep mvc, controller memanggil intruksi pada model yang mengambil data pada database, kemudian controller yang meneruskannya pada view untuk di tampilkan. Jadi jelas sudah dan sangat mudah dalam pengembangan aplikasi dengan cara mvc ini karena web designer atau front-end developer tidak perlu lagi berhubungan dengan controller, dia hanya perlu berhubungan dengan view untuk mendesign tampilann aplikasi, karena back-end developer yangmenangani bagian controller dan modelnya. Jadi pembagian tugas pun menjadi mudah dan pengembangan aplikasi dapat di lakukan dengan cepat dan terstruktur.</p>
+</section>
+
+13. Buat file view baru dengan nama: v_footer.php
+
+<footer> <a href="http://www.RentalBuku.com">RentalBuku</a> </footer>
+</div>
+</body>
+
+</html>
+
+14. Membuat file css dengan nama: stylebuku.css di dalam folder assets/css
+
+body {
+    background: #eee;
+    color: #333;
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+#wrapper {
+    background: #fff;
+    width: 1100px;
+    margin: 20px auto;
+}
+
+#wrapper header {
+    background: #232323;
+    padding: 20px;
+}
+
+#wrapper header hgroup {
+    float: left;
+    color: #fff;
+}
+
+#wrapper header nav {
+    float: right;
+    margin-top: 50px;
+}
+
+#wrapper header nav ul {
+    padding: 0;
+    margin: 0;
+}
+
+#wrapper header nav ul li {
+    float: left;
+    list-style: none;
+}
+
+#wrapper header nav ul li a {
+    padding: 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.clear {
+    clear: both;
+}
+
+footer {
+    background: #232323;
+    padding: 20px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+section {
+    padding: 20px;
+}
+
+15. Membuat file view baru dengan nama: v_about.php
+
+<section>
+    <h1><?php echo $judul ?></h1>
+    <h4>Nama</h4>
+    <ul type="disc">
+        <li>Nama Depan : Imam</li>
+        <li>Nama Belakang : Nawawi</li>
+    </ul> <br>
+    <h4>Alamat</h4>
+    <ul type="none">
+        <li> Jalan Ciledug Raya No. 168 Pesanggrahan</li>
+    </ul>
+    <h4>Tempat Lahir</h4>
+    <ul type="none">
+        <li>Cirebon</li>
+    </ul>
+    <h4>Olah Raga Favorit</h4>
+    <ul type="square">
+        <li>Bulutangkis</li>
+        <li>Catur</li>
+    </ul>
+</section>
+
+16. Menambahkan fungsi baru di dalam controller Website. Taruh di bawah function index
+
+    public function about()
+    {
+        $data['judul'] = "Halaman Tentang Kami";
+        $this->load->view('v_header', $data);
+        $this->load->view('v_about', $data);
+        $this->load->view('v_footer', $data);
+    }
+
+
+http://localhost/web3a/index.php/website
+
+
+17. Menambahkan Favicon pada website
+-Cari icon di https://iconarchive.com/
+-Simpan ke dalam folder assets/img
+-Tambahkan code untuk memanggil file icon sebelum </head> di v_header.php
+
+<link rel="shortcut icon" href="<?php echo base_url() ?>assets/img/favicon.png">
+
+18. Push github melalui vscode lLUI TAmbahkan collaborator pada repository web3a di github ke email : fabriyan.fbf@bsi.ac.id
